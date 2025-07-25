@@ -30,8 +30,8 @@ export default function LoginPage() {
                 </svg>
               </div>
               <CardHeader className="text-center p-0 text-white">
-                <CardTitle className="text-2xl font-bold">Blentops Admin</CardTitle>
-                <CardDescription className="text-white/80">
+                <CardTitle className="text-4xl font-serif">Blentops</CardTitle>
+                <CardDescription className="text-white/80 pt-2">
                   Welcome back! Please sign in to continue.
                 </CardDescription>
               </CardHeader>

@@ -10,6 +10,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
@@ -26,8 +27,8 @@ import {
   LogOut,
   ChevronDown,
   Mail,
+  PanelLeft,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Collapsible,
   CollapsibleContent,
@@ -69,7 +70,7 @@ export function MainSidebar() {
   };
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
@@ -90,11 +91,12 @@ export function MainSidebar() {
           </div>
           <span className="text-lg font-semibold">Blentops</span>
         </div>
+        <SidebarTrigger className="hidden md:flex absolute top-2 right-2"/>
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/overview")}>
+            <SidebarMenuButton asChild isActive={isActive("/overview")} tooltip="Overview">
               <Link href="/overview">
                 <LayoutDashboard />
                 <span>Overview</span>
@@ -105,7 +107,7 @@ export function MainSidebar() {
           <Collapsible open={pagesOpen} onOpenChange={setPagesOpen}>
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton className="justify-between" isActive={isActive("/pages")}>
+                <SidebarMenuButton className="justify-between" isActive={isActive("/pages")} tooltip="Pages">
                   <div className="flex items-center gap-2">
                     <FileText />
                     <span>Pages</span>
@@ -130,7 +132,7 @@ export function MainSidebar() {
           </Collapsible>
           
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/enquiries")}>
+            <SidebarMenuButton asChild isActive={isActive("/enquiries")} tooltip="Enquiries">
               <Link href="/enquiries">
                 <Mail />
                 <span>Enquiries</span>
@@ -139,7 +141,7 @@ export function MainSidebar() {
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/social")}>
+            <SidebarMenuButton asChild isActive={isActive("/social")} tooltip="Social Media">
               <Link href="/social">
                 <LinkIcon />
                 <span>Social Media</span>
@@ -147,7 +149,7 @@ export function MainSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/components")}>
+            <SidebarMenuButton asChild isActive={isActive("/components")} tooltip="Components">
               <Link href="/components">
                 <Palette />
                 <span>Components</span>
@@ -155,7 +157,7 @@ export function MainSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/media")}>
+            <SidebarMenuButton asChild isActive={isActive("/media")} tooltip="Media">
               <Link href="/media">
                 <ImageIcon />
                 <span>Media</span>
@@ -167,7 +169,7 @@ export function MainSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-             <SidebarMenuButton onClick={handleLogout}>
+             <SidebarMenuButton onClick={handleLogout} tooltip="Logout">
                 <LogOut />
                 <span>Logout</span>
             </SidebarMenuButton>

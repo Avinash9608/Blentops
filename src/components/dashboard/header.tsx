@@ -13,32 +13,49 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, User } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useEffect, useState } from "react";
 
 function getPageTitle(pathname: string): string {
-  if (pathname === "/") return "Dashboard";
-  const segments = pathname.split("/").filter(Boolean);
-  if (segments.length === 0) return "Dashboard";
-  
-  const title = segments[segments.length - 1]
-    .replace(/-/g, ' ')
-    .replace(/\[slug\]/g, 'Editor')
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    const segments = pathname.split('/').filter(Boolean);
+    if (segments.length === 0 || (segments.length === 1 && segments[0] === 'dashboard')) {
+        return "Overview";
+    }
+
+    const title = segments[segments.length - 1]
+        .replace(/-/g, ' ')
+        .replace(/\[slug\]/g, 'Editor')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     
-  if (segments[0] === 'pages' && segments.length > 1) {
-    return `${title} Page`;
-  }
+    if (segments[0] === 'pages' && segments.length > 1) {
+        return `${title} Page`;
+    }
   
-  return title;
+    return title;
 }
 
 export function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const { isMobile } = useSidebar();
   const title = getPageTitle(pathname);
+  const [userEmail, setUserEmail] = useState("admin@blentops.com");
+
+  useEffect(() => {
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
+    if (loggedInUser) {
+        const user = JSON.parse(loggedInUser);
+        setUserEmail(user.email);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('loggedInUser');
+    router.push('/login');
+  };
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
@@ -52,7 +69,7 @@ export function Header() {
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="h-9 w-9">
                 <AvatarImage src="https://placehold.co/100x100.png" alt="Admin" data-ai-hint="admin avatar" />
-                <AvatarFallback>A</AvatarFallback>
+                <AvatarFallback>{userEmail.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -61,7 +78,7 @@ export function Header() {
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">Admin</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  admin@blentops.com
+                  {userEmail}
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -71,12 +88,10 @@ export function Header() {
               <span>Profile</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <Link href="/login">
-              <DropdownMenuItem>
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
-              </DropdownMenuItem>
-            </Link>
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log out</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

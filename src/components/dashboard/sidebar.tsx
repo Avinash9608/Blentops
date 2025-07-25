@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Sidebar,
   SidebarHeader,
@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/collapsible";
 import { useState } from "react";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 const pagesLinks = [
   { href: "/pages/home", label: "Home", icon: FileText },
@@ -47,11 +48,19 @@ const pagesLinks = [
 
 export function MainSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [pagesOpen, setPagesOpen] = useState(pathname.startsWith('/pages'));
 
   const isActive = (path: string) => {
-    if (path === "/") return pathname === "/";
-    return pathname.startsWith(path);
+    // Exact match for overview page
+    if (path === "/dashboard/overview") return pathname === path;
+    // Otherwise, use startsWith for parent paths
+    return pathname.startsWith(path) && path !== '/dashboard';
+  };
+  
+  const handleLogout = () => {
+    sessionStorage.removeItem('loggedInUser');
+    router.push('/login');
   };
 
   return (
@@ -80,10 +89,10 @@ export function MainSidebar() {
       <SidebarContent className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/")}>
-              <Link href="/">
+            <SidebarMenuButton asChild isActive={isActive("/dashboard/overview")}>
+              <Link href="/dashboard/overview">
                 <LayoutDashboard />
-                <span>Dashboard</span>
+                <span>Overview</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -91,7 +100,7 @@ export function MainSidebar() {
           <Collapsible open={pagesOpen} onOpenChange={setPagesOpen}>
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton className="justify-between">
+                <SidebarMenuButton className="justify-between" isActive={isActive("/pages")}>
                   <div className="flex items-center gap-2">
                     <FileText />
                     <span>Pages</span>
@@ -144,11 +153,9 @@ export function MainSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-             <SidebarMenuButton asChild>
-              <Link href="/login">
+             <SidebarMenuButton onClick={handleLogout}>
                 <LogOut />
                 <span>Logout</span>
-              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

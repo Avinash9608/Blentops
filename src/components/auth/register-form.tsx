@@ -34,14 +34,20 @@ export function RegisterForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    // Simulate API call for registration
+    
     setTimeout(() => {
-      console.log("Registration successful for:", values.email);
+      // Store the registered user and a flag in localStorage
+      localStorage.setItem('registeredUser', JSON.stringify(values));
+      localStorage.setItem('hasRegisteredUser', 'true');
+
+      console.log("Admin registration successful for:", values.email);
       toast({
         title: "Registration Successful",
-        description: "Your account has been created. Please log in.",
+        description: "Your admin account has been created. Please log in.",
       });
       router.push("/login");
+      // A full page reload can help ensure all components re-evaluate localStorage
+      router.refresh(); 
       setIsLoading(false);
     }, 1000);
   }

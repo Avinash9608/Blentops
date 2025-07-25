@@ -32,16 +32,31 @@ export function LoginForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    // Simulate API call
+    
     setTimeout(() => {
-      // This is a mock authentication.
-      // In a real app, you would validate against a database.
-      if (values.email && values.password) {
+      const storedUserRaw = localStorage.getItem('registeredUser');
+      if (!storedUserRaw) {
+        toast({
+          variant: "destructive",
+          title: "Login Failed",
+          description: "No registered user found. Please register first.",
+        });
+        setIsLoading(false);
+        return;
+      }
+      
+      const storedUser = JSON.parse(storedUserRaw);
+
+      if (values.email === storedUser.email && values.password === storedUser.password) {
+        // In a real app, you'd get a session token from the server.
+        // Here, we'll use sessionStorage to simulate being logged in.
+        sessionStorage.setItem('loggedInUser', JSON.stringify({ email: values.email }));
+
         toast({
           title: "Login Successful",
           description: `Welcome back, ${values.email}!`,
         });
-        router.push("/");
+        router.push("/dashboard/overview");
       } else {
         toast({
           variant: "destructive",

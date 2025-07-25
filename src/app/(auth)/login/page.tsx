@@ -1,5 +1,8 @@
 import { LoginForm } from "@/components/auth/login-form";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
   return (
@@ -11,6 +14,12 @@ export default function LoginPage() {
       <CardContent>
         <LoginForm />
       </CardContent>
+      <CardFooter className="flex flex-col items-center justify-center text-sm">
+        <p className="text-muted-foreground">Don't have an account?</p>
+        <Link href="/register" className={cn(buttonVariants({ variant: "link" }), "p-0 h-auto")}>
+            Sign up now
+        </Link>
+      </CardFooter>
     </Card>
   );
 }

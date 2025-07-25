@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarToggle,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
@@ -27,6 +28,10 @@ import {
   LogOut,
   ChevronDown,
   Mail,
+  Users,
+  BarChart2,
+  Settings,
+  Globe,
 } from "lucide-react";
 import {
   Collapsible,
@@ -137,6 +142,17 @@ export function MainSidebar() {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={isActive("/users")} tooltip="Users">
+              <Link href="/users">
+                <Users />
+                <span>Users</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarSeparator className="my-2" />
 
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={isActive("/social")} tooltip="Social Media">
@@ -162,6 +178,34 @@ export function MainSidebar() {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          
+          <SidebarSeparator className="my-2" />
+          
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={isActive("/analytics")} tooltip="Analytics">
+              <Link href="/analytics">
+                <BarChart2 />
+                <span>Analytics</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={isActive("/seo")} tooltip="SEO">
+              <Link href="/seo">
+                <Globe />
+                <span>SEO</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+           <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={isActive("/settings")} tooltip="Settings">
+              <Link href="/settings">
+                <Settings />
+                <span>Settings</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>

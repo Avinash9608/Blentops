@@ -66,7 +66,7 @@ export function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="h-9 w-9">
-                <AvatarImage src={`https://i.pravatar.cc/150?u=${userEmail}`} alt="Admin" />
+                <AvatarImage src="https://res.cloudinary.com/dfdtdqumn/image/upload/v1751527651/products/study-table-1751527636203.jpg" alt="Admin" />
                 <AvatarFallback>{userInitial}</AvatarFallback>
               </Avatar>
             </Button>

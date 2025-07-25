@@ -12,8 +12,6 @@ export default {
       fontFamily: {
         body: ['Outfit', 'sans-serif'],
         headline: ['"EB Garamond"', 'serif'],
-        serif: ['"EB Garamond"', 'serif'],
-        code: ['monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',

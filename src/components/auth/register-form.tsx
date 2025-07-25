@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,9 +12,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { app } from "@/lib/firebase";
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -27,6 +28,26 @@ export function RegisterForm() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isRegistrationLocked, setIsRegistrationLocked] = useState(true);
+  const [isCheckingLock, setIsCheckingLock] = useState(true);
+
+  useEffect(() => {
+    const checkRegistrationLock = async () => {
+      try {
+        const db = getFirestore(app);
+        const lockRef = doc(db, "meta", "registrationLock");
+        const lockSnap = await getDoc(lockRef);
+        setIsRegistrationLocked(lockSnap.exists());
+      } catch (error) {
+        console.error("Error checking registration lock:", error);
+        // Default to locked if there's an error to be safe
+        setIsRegistrationLocked(true);
+      } finally {
+        setIsCheckingLock(false);
+      }
+    };
+    checkRegistrationLock();
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,12 +68,16 @@ export function RegisterForm() {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
 
-      // Create a user profile document (optional but good practice)
+      // Create a user profile document
       await setDoc(doc(db, "users", user.uid), {
         name: values.name,
         email: values.email,
         createdAt: new Date(),
       });
+      
+      // Lock registration
+      const lockRef = doc(db, "meta", "registrationLock");
+      await setDoc(lockRef, { locked: true, createdAt: new Date() });
 
       toast({
         title: "Registration Successful",
@@ -71,6 +96,26 @@ export function RegisterForm() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (isCheckingLock) {
+    return (
+      <div className="flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (isRegistrationLocked) {
+    return (
+      <Alert>
+        <Terminal className="h-4 w-4" />
+        <AlertTitle>Registration Disabled</AlertTitle>
+        <AlertDescription>
+          An admin account has already been registered. Please log in.
+        </AlertDescription>
+      </Alert>
+    );
   }
 
   return (

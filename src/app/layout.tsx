@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
-  title: 'Blentops Admin Console',
-  description: 'Admin panel for managing the Blentops website.',
+  title: 'Blentos Admin Console',
+  description: 'Admin panel for managing the Blentos website.',
 };
 
 export default function RootLayout({

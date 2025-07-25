@@ -5,12 +5,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  "projectId": "blentos-admin-console",
+  "appId": "1:106612451532:web:6a5998d10a90e82f70fa69",
+  "storageBucket": "blentos-admin-console.firebasestorage.app",
+  "apiKey": "AIzaSyDswRNQN295277JsOWEfiOBQu4zjJubteI",
+  "authDomain": "blentos-admin-console.firebaseapp.com",
+  "measurementId": "",
+  "messagingSenderId": "106612451532"
 };
 
 // Initialize Firebase

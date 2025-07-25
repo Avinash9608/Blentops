@@ -86,7 +86,7 @@ export function MainSidebar() {
               <path d="M2 12l10 5 10-5" />
             </svg>
           </div>
-          <span className="text-lg font-semibold">Blentops</span>
+          <span className="text-lg font-semibold">Blentos</span>
         </div>
       </SidebarHeader>
       <SidebarContent className="p-2">

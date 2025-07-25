@@ -40,7 +40,7 @@ export function HomeEditor() {
       feature1Desc: "All our products are made from recycled or sustainable materials.",
       feature2Title: "Carbon Neutral Shipping",
       feature2Desc: "We offset all carbon emissions from our shipping process.",
-      testimonial1Text: "Blentops has changed the way I think about consumption. Amazing products and mission!",
+      testimonial1Text: "Blentos has changed the way I think about consumption. Amazing products and mission!",
       testimonial1Author: "Alex Johnson",
     },
   });

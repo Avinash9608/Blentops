@@ -62,10 +62,17 @@ export function RegisterForm() {
       
     } catch (error: any) {
       console.error("Registration failed:", error);
+      let description = "Could not create account. Please try again.";
+      if (error.code === 'auth/email-already-in-use') {
+        description = "This email is already registered. Please log in or use a different email.";
+      } else if (error.message) {
+        description = error.message;
+      }
+      
       toast({
         variant: "destructive",
         title: "Registration Failed",
-        description: error.message || "Could not create account. Please try again.",
+        description: description,
       });
     } finally {
       setIsLoading(false);

@@ -1,4 +1,4 @@
-import type { Product, Collaboration, JobListing, NavLink } from './types';
+import type { Product, Collaboration, JobListing, NavLink, Enquiry } from './types';
 
 export const MOCK_STATS = [
   { title: 'Total Pages', value: '8', icon: 'FileText' },
@@ -43,4 +43,11 @@ export const MOCK_FOOTER_LINKS: NavLink[] = [
     { label: 'Careers', path: '/careers' },
     { label: 'Investors', path: '/investors' },
     { label: 'Privacy Policy', path: '/privacy' },
+];
+
+export const MOCK_ENQUIRIES: Enquiry[] = [
+  { id: 'enq1', name: 'Alice Johnson', email: 'alice.j@example.com', message: 'I have a question about the warranty on the Eco-Friendly Water Bottle. Can you provide more details?', status: 'New', receivedAt: '2024-07-29T10:30:00Z' },
+  { id: 'enq2', name: 'Bob Williams', email: 'bob.w@example.com', message: 'I would like to inquire about bulk order discounts for the Recycled Paper Notebooks for my company.', status: 'New', receivedAt: '2024-07-29T09:15:00Z' },
+  { id: 'enq3', name: 'Charlie Brown', email: 'charlie.b@example.com', message: 'My Bamboo Cutlery Set arrived damaged. How can I get a replacement?', status: 'Replied', receivedAt: '2024-07-28T15:00:00Z' },
+  { id: 'enq4', name: 'Diana Miller', email: 'diana.m@example.com', message: 'What is the shipping time to Canada? I am interested in ordering a few items.', status: 'New', receivedAt: '2024-07-28T11:45:00Z' },
 ];

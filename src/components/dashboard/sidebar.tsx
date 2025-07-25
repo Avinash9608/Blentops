@@ -25,6 +25,7 @@ import {
   Image as ImageIcon,
   LogOut,
   ChevronDown,
+  Mail,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -127,6 +128,15 @@ export function MainSidebar() {
               </SidebarMenu>
             </CollapsibleContent>
           </Collapsible>
+          
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={isActive("/enquiries")}>
+              <Link href="/enquiries">
+                <Mail />
+                <span>Enquiries</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
 
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={isActive("/social")}>

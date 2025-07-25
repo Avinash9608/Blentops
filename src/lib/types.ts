@@ -26,3 +26,12 @@ export type NavLink = {
   label: string;
   path: string;
 };
+
+export type Enquiry = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  status: 'New' | 'Replied';
+  receivedAt: string;
+};

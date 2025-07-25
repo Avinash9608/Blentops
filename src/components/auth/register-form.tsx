@@ -12,7 +12,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { app } from "@/lib/firebase";
 
 const formSchema = z.object({
@@ -39,19 +38,10 @@ export function RegisterForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     const auth = getAuth(app);
-    const db = getFirestore(app);
 
     try {
       // Create user in Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      const user = userCredential.user;
-
-      // Create a user profile document in Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        name: values.name,
-        email: values.email,
-        createdAt: new Date(),
-      });
+      await createUserWithEmailAndPassword(auth, values.email, values.password);
       
       toast({
         title: "Registration Successful",
@@ -69,8 +59,6 @@ export function RegisterForm() {
       
       if (error.code === 'auth/email-already-in-use') {
         description = "This email is already registered. Please log in or use a different email.";
-      } else if (error.code === 'permission-denied' || error.message.includes('firestore')) {
-          description = "Could not save user data. Please ensure Firestore is set up correctly in your Firebase project and security rules allow writes.";
       } else if (error.message) {
         description = error.message;
       }

@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Trash2, LayoutTemplate, ChevronsUpDown } from "lucide-react";
+import { Loader2, Trash2, LayoutTemplate } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { MOCK_HEADER_LINKS, MOCK_FOOTER_LINKS } from "@/lib/constants";
 import type { NavLink } from "@/lib/types";
@@ -99,10 +99,10 @@ export default function ComponentsPage() {
             <AccordionItem value="header" className="border-none">
               <Card>
                 <AccordionTrigger className="p-6 text-lg font-semibold hover:no-underline">
-                  Header
+                  Header Customization
                 </AccordionTrigger>
                 <AccordionContent asChild>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-6 pt-0">
                       <div>
                         <Label>Logo</Label>
                         <div className="mt-2 flex items-center gap-4">
@@ -121,10 +121,10 @@ export default function ComponentsPage() {
             <AccordionItem value="footer" className="border-none">
                 <Card>
                     <AccordionTrigger className="p-6 text-lg font-semibold hover:no-underline">
-                        Footer
+                        Footer Customization
                     </AccordionTrigger>
                     <AccordionContent asChild>
-                        <CardContent className="space-y-4">
+                        <CardContent className="space-y-6 pt-0">
                           <FormField
                             control={form.control}
                             name="footerText"

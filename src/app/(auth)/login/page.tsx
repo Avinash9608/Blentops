@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -26,7 +27,7 @@ export default function LoginPage() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold">Blentos Admin Console</CardTitle>
+        <CardTitle className="text-2xl font-bold">Blentops Admin Console</CardTitle>
         <CardDescription>
           {hasRegisteredUser 
             ? "Welcome back! Please sign in to continue."

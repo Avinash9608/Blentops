@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { app } from "@/lib/firebase";
 
 
@@ -43,28 +43,9 @@ export function RegisterForm() {
     const db = getFirestore(app);
 
     try {
-      // Check if an admin is already registered
-      const adminLockDoc = await getDoc(doc(db, "app_meta", "admin_lock"));
-      if (adminLockDoc.exists()) {
-        toast({
-          variant: "destructive",
-          title: "Registration Failed",
-          description: "An admin account has already been registered.",
-        });
-        setIsLoading(false);
-        router.refresh(); // Refresh page to show registration is closed
-        return;
-      }
-      
       // Create user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
-
-      // Create a lock document in Firestore to prevent more registrations
-      await setDoc(doc(db, "app_meta", "admin_lock"), { 
-        adminUid: user.uid,
-        registeredAt: new Date()
-      });
 
       // Create a user profile document (optional but good practice)
       await setDoc(doc(db, "users", user.uid), {
@@ -75,7 +56,7 @@ export function RegisterForm() {
 
       toast({
         title: "Registration Successful",
-        description: "Your admin account has been created. Redirecting...",
+        description: "Your account has been created. Redirecting...",
       });
       
       router.push("/overview"); 

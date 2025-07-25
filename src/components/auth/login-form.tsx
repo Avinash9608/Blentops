@@ -96,7 +96,7 @@ export function LoginForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-white">Email</FormLabel>
               <FormControl>
                 <Input placeholder="your.email@example.com" {...field} />
               </FormControl>
@@ -110,7 +110,7 @@ export function LoginForm() {
           render={({ field }) => (
             <FormItem>
                 <div className="flex items-center justify-between">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel className="text-white">Password</FormLabel>
                      <button type="button" onClick={handlePasswordReset} className={cn(buttonVariants({ variant: "link" }), "p-0 h-auto text-xs")}>
                         Forgot Password?
                     </button>

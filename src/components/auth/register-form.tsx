@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { app } from "@/lib/firebase";
 
@@ -46,7 +46,7 @@ export function RegisterForm() {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
 
-      // Create a user profile document
+      // Create a user profile document in Firestore
       await setDoc(doc(db, "users", user.uid), {
         name: values.name,
         email: values.email,
@@ -58,13 +58,19 @@ export function RegisterForm() {
         description: "Your account has been created. Redirecting...",
       });
       
+      // Automatically sign in the user after registration
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      
       router.push("/overview"); 
       
     } catch (error: any) {
       console.error("Registration failed:", error);
       let description = "Could not create account. Please try again.";
+      
       if (error.code === 'auth/email-already-in-use') {
         description = "This email is already registered. Please log in or use a different email.";
+      } else if (error.code === 'permission-denied' || error.message.includes('firestore')) {
+          description = "Could not save user data. Please ensure Firestore is set up correctly in your Firebase project and security rules allow writes.";
       } else if (error.message) {
         description = error.message;
       }

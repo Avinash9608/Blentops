@@ -5,7 +5,7 @@ import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
   title: 'Blentops',
-  description: 'Admin panel for managing the Blentos website.',
+  description: 'Admin panel for managing the Blentops website.',
 };
 
 export default function RootLayout({

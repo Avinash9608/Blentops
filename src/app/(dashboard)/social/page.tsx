@@ -32,9 +32,9 @@ export default function SocialPage() {
   const form = useForm<z.infer<typeof socialSchema>>({
     resolver: zodResolver(socialSchema),
     defaultValues: {
-      linkedin: "https://www.linkedin.com/company/blentos",
-      twitter: "https://twitter.com/blentos",
-      instagram: "https://instagram.com/blentos",
+      linkedin: "https://www.linkedin.com/company/blentops",
+      twitter: "https://twitter.com/blentops",
+      instagram: "https://instagram.com/blentops",
     },
   });
 

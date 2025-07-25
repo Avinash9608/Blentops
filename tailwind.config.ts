@@ -10,9 +10,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
-        serif: ['"Playfair Display"', 'serif'],
+        body: ['Outfit', 'sans-serif'],
+        headline: ['"EB Garamond"', 'serif'],
+        serif: ['"EB Garamond"', 'serif'],
         code: ['monospace'],
       },
       colors: {

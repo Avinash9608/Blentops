@@ -29,7 +29,7 @@ export function AboutUsEditor() {
       missionStatement: "Our mission is to make sustainable choices accessible to everyone, everywhere.",
       teamDescription: "We are a passionate team of innovators, designers, and environmentalists dedicated to making a positive impact.",
       timelineEvents: JSON.stringify([
-        { year: "2020", event: "Blentos was founded with a big idea." },
+        { year: "2020", event: "Blentops was founded with a big idea." },
         { year: "2022", event: "Launched our first line of eco-friendly products." },
         { year: "2024", event: "Reached 10,000 happy customers." },
       ], null, 2),

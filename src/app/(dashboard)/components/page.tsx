@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { MOCK_HEADER_LINKS, MOCK_FOOTER_LINKS } from "@/lib/constants";
 import type { NavLink } from "@/lib/types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Label } from "@/components/ui/label";
 
 
 const formSchema = z.object({
@@ -30,8 +31,8 @@ export default function ComponentsPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      footerText: "© 2024 Blentos. All rights reserved. Making the world a greener place, one product at a time.",
-      footerContact: "123 Green Way, Eco City, 54321\ncontact@blentos.com",
+      footerText: "© 2024 Blentops. All rights reserved. Making the world a greener place, one product at a time.",
+      footerContact: "123 Green Way, Eco City, 54321\ncontact@blentops.com",
     },
   });
 

@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }).refine(email => email === "admin@blentos.com", {
+  email: z.string().email({ message: "Invalid email address." }).refine(email => email === "admin@blentops.com", {
     message: "Access restricted to admin email.",
   }),
   password: z.string().min(1, { message: "Password is required." }),
@@ -36,7 +36,7 @@ export function LoginForm() {
     setIsLoading(true);
     // Simulate API call
     setTimeout(() => {
-      if (values.email === "admin@blentos.com" && values.password === "password") {
+      if (values.email === "admin@blentops.com" && values.password === "password") {
         toast({
           title: "Login Successful",
           description: "Welcome, Admin!",
@@ -63,7 +63,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="admin@blentos.com" {...field} />
+                <Input placeholder="admin@blentops.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

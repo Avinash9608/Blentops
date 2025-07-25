@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "@/lib/firebase";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -30,42 +32,26 @@ export function LoginForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    
-    setTimeout(() => {
-      const storedUserRaw = localStorage.getItem('registeredUser');
-      if (!storedUserRaw) {
-        toast({
-          variant: "destructive",
-          title: "Login Failed",
-          description: "No registered user found. Please register first.",
-        });
-        setIsLoading(false);
-        return;
-      }
-      
-      const storedUser = JSON.parse(storedUserRaw);
-
-      if (values.email === storedUser.email && values.password === storedUser.password) {
-        // In a real app, you'd get a session token from the server.
-        // Here, we'll use sessionStorage to simulate being logged in.
-        sessionStorage.setItem('loggedInUser', JSON.stringify({ email: values.email }));
-
-        toast({
-          title: "Login Successful",
-          description: `Welcome back, ${values.email}!`,
-        });
-        router.push("/overview");
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Login Failed",
-          description: "Invalid credentials. Please try again.",
-        });
-        setIsLoading(false);
-      }
-    }, 1000);
+    const auth = getAuth(app);
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      toast({
+        title: "Login Successful",
+        description: `Welcome back!`,
+      });
+      router.push("/overview");
+    } catch (error: any) {
+      console.error("Login failed:", error);
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description: error.message || "Invalid credentials. Please try again.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

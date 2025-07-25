@@ -10,6 +10,10 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { app } from "@/lib/firebase";
+
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -32,28 +36,59 @@ export function RegisterForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    
-    setTimeout(() => {
-      // Store the registered user and a flag in localStorage
-      localStorage.setItem('registeredUser', JSON.stringify(values));
-      localStorage.setItem('hasRegisteredUser', 'true');
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-      // Also log the user in immediately
-      sessionStorage.setItem('loggedInUser', JSON.stringify({ email: values.email }));
+    try {
+      // Check if an admin is already registered
+      const adminLockDoc = await getDoc(doc(db, "app_meta", "admin_lock"));
+      if (adminLockDoc.exists()) {
+        toast({
+          variant: "destructive",
+          title: "Registration Failed",
+          description: "An admin account has already been registered.",
+        });
+        setIsLoading(false);
+        router.refresh(); // Refresh page to show registration is closed
+        return;
+      }
+      
+      // Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+      const user = userCredential.user;
 
-      console.log("Admin registration successful for:", values.email);
+      // Create a lock document in Firestore to prevent more registrations
+      await setDoc(doc(db, "app_meta", "admin_lock"), { 
+        adminUid: user.uid,
+        registeredAt: new Date()
+      });
+
+      // Create a user profile document (optional but good practice)
+      await setDoc(doc(db, "users", user.uid), {
+        name: values.name,
+        email: values.email,
+        createdAt: new Date(),
+      });
+
       toast({
         title: "Registration Successful",
         description: "Your admin account has been created. Redirecting...",
       });
       
-      // Redirect to the dashboard
       router.push("/overview"); 
       
+    } catch (error: any) {
+      console.error("Registration failed:", error);
+      toast({
+        variant: "destructive",
+        title: "Registration Failed",
+        description: error.message || "Could not create account. Please try again.",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   }
 
   return (

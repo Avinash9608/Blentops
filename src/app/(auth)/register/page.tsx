@@ -1,21 +1,29 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { RegisterForm } from "@/components/auth/register-form";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { AlertTriangle } from 'lucide-react';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { app } from '@/lib/firebase';
 
 export default function RegisterPage() {
   const [hasRegisteredUser, setHasRegisteredUser] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    const userExists = localStorage.getItem('hasRegisteredUser') === 'true';
-    setHasRegisteredUser(userExists);
-    setIsLoading(false);
+    const checkRegistration = async () => {
+      const db = getFirestore(app);
+      const adminLockDoc = await getDoc(doc(db, "app_meta", "admin_lock"));
+      setHasRegisteredUser(adminLockDoc.exists());
+      setIsLoading(false);
+    };
+    checkRegistration();
   }, []);
 
   if (isLoading) {

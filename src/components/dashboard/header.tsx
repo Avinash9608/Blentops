@@ -15,7 +15,8 @@ import { LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useSidebar } from "@/components/ui/sidebar";
-import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
+import { getAuth, signOut } from "firebase/auth";
 
 function getPageTitle(pathname: string): string {
     const segments = pathname.split('/').filter(Boolean);
@@ -41,21 +42,17 @@ export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { isMobile } = useSidebar();
+  const { user } = useAuth();
   const title = getPageTitle(pathname);
-  const [userEmail, setUserEmail] = useState("admin@blentops.com");
 
-  useEffect(() => {
-    const loggedInUser = sessionStorage.getItem('loggedInUser');
-    if (loggedInUser) {
-        const user = JSON.parse(loggedInUser);
-        setUserEmail(user.email);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    sessionStorage.removeItem('loggedInUser');
+  const handleLogout = async () => {
+    const auth = getAuth();
+    await signOut(auth);
     router.push('/login');
   };
+
+  const userEmail = user?.email || "admin@example.com";
+  const userInitial = userEmail.charAt(0).toUpperCase();
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
@@ -68,8 +65,8 @@ export function Header() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="h-9 w-9">
-                <AvatarImage src="https://placehold.co/100x100.png" alt="Admin" data-ai-hint="admin avatar" />
-                <AvatarFallback>{userEmail.charAt(0).toUpperCase()}</AvatarFallback>
+                <AvatarImage src={`https://i.pravatar.cc/150?u=${userEmail}`} alt="Admin" />
+                <AvatarFallback>{userInitial}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>

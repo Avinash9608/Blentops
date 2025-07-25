@@ -34,6 +34,7 @@ import {
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { getAuth, signOut } from "firebase/auth";
 
 const pagesLinks = [
   { href: "/pages/home", label: "Home", icon: FileText },
@@ -59,8 +60,9 @@ export function MainSidebar() {
     return pathname.startsWith(path) && path !== '/';
   };
   
-  const handleLogout = () => {
-    sessionStorage.removeItem('loggedInUser');
+  const handleLogout = async () => {
+    const auth = getAuth();
+    await signOut(auth);
     router.push('/login');
   };
 

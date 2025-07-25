@@ -1,19 +1,26 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { LoginForm } from "@/components/auth/login-form";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { app } from '@/lib/firebase';
 
 export default function LoginPage() {
   const [hasRegisteredUser, setHasRegisteredUser] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    // Check if a user has registered.
-    const userExists = localStorage.getItem('hasRegisteredUser') === 'true';
-    setHasRegisteredUser(userExists);
+    const checkRegistration = async () => {
+      const db = getFirestore(app);
+      const adminLockDoc = await getDoc(doc(db, "app_meta", "admin_lock"));
+      setHasRegisteredUser(adminLockDoc.exists());
+    };
+    checkRegistration();
   }, []);
 
   return (

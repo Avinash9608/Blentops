@@ -9,7 +9,7 @@ export default function LoginPage() {
     <div className="group perspective-[1000px]">
       <Card 
         className="w-full max-w-sm transition-transform duration-500 ease-in-out group-hover:rotate-y-3 group-hover:shadow-2xl bg-cover bg-center border-white/20"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1624359136353-f60129a367b9?w=600&auto=format&fit=crop')" }}
+        style={{ backgroundImage: "url('https://plus.unsplash.com/premium_photo-1674902194256-95a8aa131a21?w=600&auto=format&fit=crop')" }}
       >
         <div className="bg-black/60 backdrop-blur-sm rounded-lg p-6">
             <div className="flex flex-col items-center justify-center">

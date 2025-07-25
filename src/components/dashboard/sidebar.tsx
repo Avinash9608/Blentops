@@ -10,7 +10,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarTrigger,
+  SidebarToggle,
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
@@ -27,7 +27,6 @@ import {
   LogOut,
   ChevronDown,
   Mail,
-  PanelLeft,
 } from "lucide-react";
 import {
   Collapsible,
@@ -36,7 +35,6 @@ import {
 } from "@/components/ui/collapsible";
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from "../ui/button";
 import { getAuth, signOut } from "firebase/auth";
 
 const pagesLinks = [
@@ -72,8 +70,8 @@ export function MainSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+        <div className="flex items-center gap-2 overflow-hidden">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary flex-shrink-0">
              <svg
               className="h-5 w-5 text-primary-foreground"
               xmlns="http://www.w3.org/2000/svg"
@@ -89,9 +87,9 @@ export function MainSidebar() {
               <path d="M2 12l10 5 10-5" />
             </svg>
           </div>
-          <span className="text-lg font-semibold">Blentops</span>
+          <span className="text-lg font-semibold whitespace-nowrap group-data-[collapsible=icon]:hidden">Blentops</span>
         </div>
-        <SidebarTrigger className="hidden md:flex absolute top-2 right-2"/>
+        <SidebarToggle className="hidden md:flex group-data-[collapsible=icon]:absolute group-data-[collapsible=icon]:top-4 group-data-[collapsible=icon]:right-3"/>
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>

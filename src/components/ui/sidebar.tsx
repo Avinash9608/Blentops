@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -344,7 +345,7 @@ const SidebarInset = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"main">
 >(({ className, ...props }, ref) => {
-  const { state, isMobile } = useSidebar();
+  const { isMobile } = useSidebar();
   
   if (isMobile) {
     return (
@@ -360,8 +361,7 @@ const SidebarInset = React.forwardRef<
     <main
       ref={ref}
       className={cn(
-        "relative flex min-h-svh flex-1 flex-col bg-background transition-[margin-left] duration-200",
-        state === 'expanded' ? 'md:ml-[16rem]' : 'md:ml-[3.5rem]',
+        "relative flex min-h-svh flex-1 flex-col bg-background transition-[margin-left] duration-200 md:ml-[--sidebar-width-icon] group-data-[state=expanded]/sidebar-wrapper:md:ml-[--sidebar-width]",
         className
       )}
       {...props}

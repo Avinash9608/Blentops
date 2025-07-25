@@ -40,14 +40,18 @@ export function RegisterForm() {
       localStorage.setItem('registeredUser', JSON.stringify(values));
       localStorage.setItem('hasRegisteredUser', 'true');
 
+      // Also log the user in immediately
+      sessionStorage.setItem('loggedInUser', JSON.stringify({ email: values.email }));
+
       console.log("Admin registration successful for:", values.email);
       toast({
         title: "Registration Successful",
-        description: "Your admin account has been created. Please log in.",
+        description: "Your admin account has been created. Redirecting...",
       });
-      router.push("/login");
-      // A full page reload can help ensure all components re-evaluate localStorage
-      router.refresh(); 
+      
+      // Redirect to the dashboard
+      router.push("/overview"); 
+      
       setIsLoading(false);
     }, 1000);
   }

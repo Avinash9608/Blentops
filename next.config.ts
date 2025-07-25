@@ -24,6 +24,21 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  webpack: (config, { isServer }) => {
+    // Handle handlebars require.extensions warning
+    config.externals = [
+      ...(config.externals || []),
+      'handlebars'
+    ];
+    return config;
+  },
+  // Add Turbopack configuration
+  turbopack: {
+    rules: {
+      // Configure externals for Turbopack similar to webpack
+      external: ['handlebars']
+    }
+  }
 };
 
 export default nextConfig;

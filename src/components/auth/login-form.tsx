@@ -56,7 +56,7 @@ export function LoginForm() {
           title: "Login Successful",
           description: `Welcome back, ${values.email}!`,
         });
-        router.push("/dashboard/overview");
+        router.push("/overview");
       } else {
         toast({
           variant: "destructive",

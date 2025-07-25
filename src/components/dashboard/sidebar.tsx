@@ -53,9 +53,10 @@ export function MainSidebar() {
 
   const isActive = (path: string) => {
     // Exact match for overview page
-    if (path === "/dashboard/overview") return pathname === path;
+    if (path === "/overview") return pathname === path;
+    if (path === "/") return pathname === path;
     // Otherwise, use startsWith for parent paths
-    return pathname.startsWith(path) && path !== '/dashboard';
+    return pathname.startsWith(path) && path !== '/';
   };
   
   const handleLogout = () => {
@@ -89,8 +90,8 @@ export function MainSidebar() {
       <SidebarContent className="p-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive("/dashboard/overview")}>
-              <Link href="/dashboard/overview">
+            <SidebarMenuButton asChild isActive={isActive("/overview")}>
+              <Link href="/overview">
                 <LayoutDashboard />
                 <span>Overview</span>
               </Link>
